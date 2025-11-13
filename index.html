@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="You're invited to our wedding! Join us for a celebration of love.">
-    <meta name="keywords" content="wedding, invitation, celebration, RSVP">
-    <title>Our Wedding - Save the Date</title>
+    <meta name="description" content="¡Estás invitado a nuestra boda! Únete a nosotros para una celebración del amor.">
+    <meta name="keywords" content="boda, invitación, celebración, RSVP">
+    <title>Nuestra Boda - Reserva la Fecha</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,75 +14,136 @@
 <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <ul class="nav-list">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#details">Details</a></li>
-            <li><a href="#dress-code">Dress Code</a></li>
-            <li><a href="#rsvp">RSVP</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+        <div class="nav-container">
+            <div class="nav-left">
+                <!-- Custom Audio Control -->
+                <div class="custom-audio-player">
+                    <audio id="wedding-music" preload="metadata">
+                        <source src="assets/wedding-song.mp3" type="audio/mpeg">
+                        Tu navegador no soporta el elemento de audio.
+                    </audio>
+                    <button id="play-pause-btn" class="play-btn">▶️</button>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <span class="time-display">0:00 / 0:00</span>
+                    </div>
+                    <div class="volume-container">
+                        <button id="mute-btn" class="volume-btn">🔊</button>
+                        <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.1" value="0.7">
+                    </div>
+                </div>
+            </div>
+            
+            <ul class="nav-list">
+                <li><a href="#home">Inicio</a></li>
+                <li><a href="#details">Detalles</a></li>
+                <li><a href="#dress-code">Código de Vestimenta</a></li>
+                <li><a href="#rsvp">RSVP</a></li>
+                <li><a href="#contact">Contacto</a></li>
+            </ul>
+
+            <div class="nav-right">
+                <!-- Space for future nav items -->
+            </div>
+        </div>
     </nav>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1 class="couple-names">Sarah & Michael</h1>
-            <p class="tagline">are getting married!</p>
+            <h1 class="couple-names">Daniela & Gustavo</h1>
+            <p class="tagline">¡se están casando!</p>
             <div class="wedding-date">
-                <p class="date-text">Saturday, June 14th, 2026</p>
+                <p class="date-text">Viernes, 02 de mayo de 2026</p>
             </div>
             <div id="countdown" class="countdown">
                 <div class="countdown-item">
                     <span id="days" class="countdown-number">0</span>
-                    <span class="countdown-label">Days</span>
+                    <span class="countdown-label">Días</span>
                 </div>
                 <div class="countdown-item">
                     <span id="hours" class="countdown-number">0</span>
-                    <span class="countdown-label">Hours</span>
+                    <span class="countdown-label">Horas</span>
                 </div>
                 <div class="countdown-item">
                     <span id="minutes" class="countdown-number">0</span>
-                    <span class="countdown-label">Minutes</span>
+                    <span class="countdown-label">Minutos</span>
                 </div>
                 <div class="countdown-item">
                     <span id="seconds" class="countdown-number">0</span>
-                    <span class="countdown-label">Seconds</span>
+                    <span class="countdown-label">Segundos</span>
                 </div>
             </div>
-            <a href="#details" class="btn-primary">View Details</a>
+            
+            <!-- Calendar Export -->
+            <div class="calendar-export">
+                <div class="calendar-dropdown">
+                    <button class="calendar-toggle">
+                        📅 Agregar al Calendario
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="calendar-menu">
+                        <button id="google-calendar" class="calendar-option">
+                            <span class="calendar-icon">📅</span>
+                            Google Calendar
+                        </button>
+                        <button id="outlook-calendar" class="calendar-option">
+                            <span class="calendar-icon">📧</span>
+                            Outlook
+                        </button>
+                        <button id="apple-calendar" class="calendar-option">
+                            <span class="calendar-icon">🍎</span>
+                            Apple Calendar
+                        </button>
+                        <button id="download-ics" class="calendar-option">
+                            <span class="calendar-icon">⬇️</span>
+                            Descargar ICS
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="#details" class="btn-primary">Ver Detalles</a>
         </div>
     </section>
 
     <!-- Event Details Section -->
     <section id="details" class="details-section">
         <div class="container">
-            <h2 class="section-title">Event Details</h2>
+            <h2 class="section-title">Detalles del Evento</h2>
             <div class="details-grid">
                 <div class="detail-card">
                     <div class="icon">💒</div>
-                    <h3>Ceremony</h3>
-                    <p class="detail-time">3:00 PM</p>
-                    <p class="detail-location">St. Mary's Church</p>
-                    <p class="detail-address">123 Church Street<br>Springfield, CA 90210</p>
-                    <a href="https://maps.google.com" target="_blank" class="btn-secondary">Get Directions</a>
+                    <h3>Ceremonia</h3>
+                    <p class="detail-time">7:00 PM</p>
+                    <p class="detail-location">Hacienda de Rueda</p>
+                    <p class="detail-address">Puerto de Guayabitos 206<br>Fracc. Granjas Económicas<br>37683 León de los Aldama, Guanajuato, México</p>
+                    <a href="https://maps.app.goo.gl/JPzcJmZYLJmJb4cU7" target="_blank" class="btn-secondary">Obtener Direcciones</a>
                 </div>
                 <div class="detail-card">
                     <div class="icon">🎉</div>
-                    <h3>Reception</h3>
+                    <h3>Recepción</h3>
                     <p class="detail-time">6:00 PM</p>
-                    <p class="detail-location">Grand Ballroom</p>
-                    <p class="detail-address">456 Celebration Avenue<br>Springfield, CA 90210</p>
-                    <a href="https://maps.google.com" target="_blank" class="btn-secondary">Get Directions</a>
+                    <p class="detail-location">Hacienda de Rueda</p>
+                    <p class="detail-address">Puerto de Guayabitos 206<br>Fracc. Granjas Económicas<br>37683 León de los Aldama, Guanajuato, México</p>
+                    <a href="https://maps.app.goo.gl/JPzcJmZYLJmJb4cU7" target="_blank" class="btn-secondary">Obtener Direcciones</a>
+                    <div class="venue-details">
+                        <p><strong>Ubicación:</strong></p>
+                        <p>La Hacienda de Rueda se encuentra en el Fraccionamiento Granjas Económicas en León, Guanajuato. Es fácil acceso desde las principales avenidas de la ciudad.</p>
+                        <p><strong>Estacionamiento:</strong> Disponible en el lugar</p>
+                    </div>
                 </div>
             </div>
             <div class="timeline">
-                <h3>Timeline</h3>
+                <h3>Cronograma</h3>
                 <ul class="timeline-list">
-                    <li><strong>3:00 PM</strong> - Ceremony begins</li>
-                    <li><strong>4:00 PM</strong> - Cocktail hour</li>
-                    <li><strong>6:00 PM</strong> - Reception dinner</li>
-                    <li><strong>8:00 PM</strong> - Dancing & celebration</li>
-                    <li><strong>11:00 PM</strong> - Event concludes</li>
+                    <li><strong>6:00 PM</strong> - Inicio de la recepción y hora del cóctel</li>
+                    <li><strong>7:00 PM</strong> - Ceremonia</li>
+                    <li><strong>8:00 PM</strong> - Cena y celebración</li>
+                    <li><strong>10:00 PM</strong> - Baile</li>
+                    <li><strong>12:00 AM</strong> - Fin del evento</li>
                 </ul>
             </div>
         </div>
@@ -91,31 +152,31 @@
     <!-- Dress Code Section -->
     <section id="dress-code" class="dress-code-section">
         <div class="container">
-            <h2 class="section-title">Dress Code</h2>
+            <h2 class="section-title">Código de Vestimenta</h2>
             <div class="dress-code-content">
                 <div class="dress-code-item">
-                    <div class="icon">👔</div>
-                    <h3>Formal Attire</h3>
-                    <p>We kindly request formal attire for our special day.</p>
+                    <div class="icon">🍸</div>
+                    <h3>Código de Vestimenta Cocktail</h3>
+                    <p>Solicitamos amablemente vestimenta tipo cocktail para nuestro día especial.</p>
                 </div>
                 <div class="dress-code-details">
                     <div class="dress-option">
-                        <h4>For Gentlemen</h4>
-                        <p>Dark suits or tuxedos<br>Dress shirts and ties<br>Polished dress shoes</p>
+                        <h4>Para Caballeros</h4>
+                        <p>Traje oscuro con camisa y corbata<br>Saco sport elegante con pantalón de vestir<br>Zapatos de piel</p>
                     </div>
                     <div class="dress-option">
-                        <h4>For Ladies</h4>
-                        <p>Floor-length gowns or cocktail dresses<br>Elegant accessories<br>Formal footwear</p>
+                        <h4>Para Damas</h4>
+                        <p>Vestidos de cóctel (rodilla o midi)<br>Conjuntos elegantes<br>Accesorios y zapatos semi-formales</p>
                     </div>
                 </div>
                 <div class="color-palette">
-                    <h4>Wedding Colors</h4>
+                    <h4>Colores de la Boda</h4>
                     <div class="colors">
-                        <div class="color-swatch" style="background-color: #D4AF37;" title="Gold"></div>
-                        <div class="color-swatch" style="background-color: #2C3E50;" title="Navy Blue"></div>
-                        <div class="color-swatch" style="background-color: #ECF0F1;" title="Ivory"></div>
+                        <div class="color-swatch" style="background-color: #D4AF37;" title="Oro"></div>
+                        <div class="color-swatch" style="background-color: #2C3E50;" title="Azul Marino"></div>
+                        <div class="color-swatch" style="background-color: #ECF0F1;" title="Marfil"></div>
                     </div>
-                    <p class="color-note">Please avoid wearing white or ivory to respect the bride's attire.</p>
+                    <p class="color-note">Por favor, evite usar blanco o marfil para respetar el atuendo de la novia.</p>
                 </div>
             </div>
         </div>
@@ -125,45 +186,45 @@
     <section id="rsvp" class="rsvp-section">
         <div class="container">
             <h2 class="section-title">RSVP</h2>
-            <p class="rsvp-subtitle">Please respond by May 1st, 2026</p>
+            <p class="rsvp-subtitle">Por favor, responda antes del 1 de mayo de 2026</p>
             <form id="rsvp-form" class="rsvp-form">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="name">Full Name *</label>
+                        <label for="name">Nombre Completo *</label>
                         <input type="text" id="name" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email Address *</label>
+                        <label for="email">Dirección de Correo Electrónico *</label>
                         <input type="email" id="email" name="email" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="phone">Phone Number</label>
+                        <label for="phone">Número de Teléfono</label>
                         <input type="tel" id="phone" name="phone">
                     </div>
                     <div class="form-group">
-                        <label for="guests">Number of Guests *</label>
+                        <label for="guests">Número de Invitados *</label>
                         <input type="number" id="guests" name="guests" min="1" max="5" value="1" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="attendance">Will you attend? *</label>
+                    <label for="attendance">¿Asistirá? *</label>
                     <select id="attendance" name="attendance" required>
-                        <option value="">Please select</option>
-                        <option value="yes">Joyfully accepts</option>
-                        <option value="no">Regretfully declines</option>
+                        <option value="">Por favor seleccione</option>
+                        <option value="yes">Acepta con alegría</option>
+                        <option value="no">Declina con pesar</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="dietary">Dietary Restrictions</label>
-                    <textarea id="dietary" name="dietary" rows="3" placeholder="Please let us know about any dietary restrictions or allergies"></textarea>
+                    <label for="dietary">Restricciones Dietéticas</label>
+                    <textarea id="dietary" name="dietary" rows="3" placeholder="Por favor, infórmenos sobre cualquier restricción dietética o alergias"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="message">Special Message (Optional)</label>
-                    <textarea id="message" name="message" rows="4" placeholder="Share your wishes or special requests"></textarea>
+                    <label for="message">Mensaje Especial (Opcional)</label>
+                    <textarea id="message" name="message" rows="4" placeholder="Comparta sus deseos o solicitudes especiales"></textarea>
                 </div>
-                <button type="submit" class="btn-primary">Submit RSVP</button>
+                <button type="submit" class="btn-primary">Enviar RSVP</button>
                 <div id="form-message" class="form-message"></div>
             </form>
         </div>
@@ -172,26 +233,26 @@
     <!-- Contact Section -->
     <section id="contact" class="contact-section">
         <div class="container">
-            <h2 class="section-title">Contact Us</h2>
-            <p class="contact-intro">Have questions? We're here to help!</p>
+            <h2 class="section-title">Contáctenos</h2>
+            <p class="contact-intro">¿Tiene preguntas? ¡Estamos aquí para ayudar!</p>
             <div class="contact-grid">
                 <div class="contact-card">
                     <div class="icon">👰</div>
-                    <h3>Bride</h3>
-                    <p class="contact-name">Sarah Johnson</p>
-                    <p><a href="mailto:sarah@example.com">sarah@example.com</a></p>
+                    <h3>Novia</h3>
+                    <p class="contact-name">Karla Daniela Santoyo Bermejo</p>
+                    <p><a href="mailto:daniela@example.com">daniela@example.com</a></p>
                     <p><a href="tel:+15551234567">(555) 123-4567</a></p>
                 </div>
                 <div class="contact-card">
                     <div class="icon">🤵</div>
-                    <h3>Groom</h3>
-                    <p class="contact-name">Michael Smith</p>
-                    <p><a href="mailto:michael@example.com">michael@example.com</a></p>
+                    <h3>Novio</h3>
+                    <p class="contact-name">Oscar Gustavo López Vázquez</p>
+                    <p><a href="mailto:gustavo@example.com">gustavo@example.com</a></p>
                     <p><a href="tel:+15559876543">(555) 987-6543</a></p>
                 </div>
                 <div class="contact-card">
                     <div class="icon">💐</div>
-                    <h3>Wedding Coordinator</h3>
+                    <h3>Coordinador de la Boda</h3>
                     <p class="contact-name">Emma Davis</p>
                     <p><a href="mailto:coordinator@example.com">coordinator@example.com</a></p>
                     <p><a href="tel:+15555555555">(555) 555-5555</a></p>
@@ -203,8 +264,8 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p class="footer-text">We can't wait to celebrate with you! ❤️</p>
-            <p class="footer-copyright">&copy; 2025 Sarah & Michael. All rights reserved.</p>
+            <p class="footer-text">¡No podemos esperar para celebrar contigo! ❤️</p>
+            <p class="footer-copyright">&copy; 2025 Daniela & Gustavo. Todos los derechos reservados.</p>
         </div>
     </footer>
 

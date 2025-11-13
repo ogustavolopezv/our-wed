@@ -120,39 +120,123 @@ fetch('https://your-api.com/rsvp', {
 });
 ```
 
-## 🌐 Deployment
+## 🌐 Hosting Recommendations
 
-### Deploy to GitHub Pages
+### 🏆 **Recommended: Free Static Hosting**
 
-1. Go to your repository settings
-2. Navigate to "Pages" section
-3. Select the branch (usually `main` or `master`)
-4. Select root folder
-5. Save and wait for deployment
+Perfect for wedding invitation websites since they're static HTML/CSS/JS sites:
 
-Your site will be available at: `https://yourusername.github.io/our-wed/`
+#### **1. GitHub Pages** (⭐ Most Popular)
+- **Cost**: 100% Free
+- **Custom Domain**: Yes (free with your own domain)
+- **SSL Certificate**: Automatic
+- **Setup Time**: 5 minutes
+- **Pros**: Integrated with GitHub, automatic deployments, reliable
+- **Cons**: Public repositories only (unless GitHub Pro)
 
-### Deploy to Netlify
+**Setup Steps:**
+1. Push your code to GitHub repository
+2. Go to Repository → Settings → Pages
+3. Select branch (main/master) and root folder
+4. Your site: `https://yourusername.github.io/our-wed/`
+5. Optional: Add custom domain (e.g., `danielaygustavo.com`)
 
-1. Push your code to GitHub
-2. Go to [Netlify](https://www.netlify.com/)
-3. Click "New site from Git"
-4. Select your repository
-5. Deploy!
+#### **2. Netlify** (⭐ Best User Experience)
+- **Cost**: Free tier (100GB bandwidth/month)
+- **Custom Domain**: Yes
+- **SSL Certificate**: Automatic
+- **Setup Time**: 2 minutes
+- **Pros**: Drag & drop deployment, form handling, instant previews
+- **Cons**: Limited bandwidth on free tier
 
-### Deploy to Vercel
+**Setup Steps:**
+1. Go to [netlify.com](https://netlify.com)
+2. Drag & drop your project folder, OR
+3. Connect GitHub repository for auto-deployment
+4. Get instant URL: `https://random-name.netlify.app`
+5. Add custom domain if needed
 
-1. Push your code to GitHub
-2. Go to [Vercel](https://vercel.com/)
-3. Import your repository
-4. Deploy!
+#### **3. Vercel** (⭐ Developer Friendly)
+- **Cost**: Free for personal projects
+- **Custom Domain**: Yes
+- **SSL Certificate**: Automatic
+- **Setup Time**: 3 minutes  
+- **Pros**: Fast global CDN, GitHub integration, great performance
+- **Cons**: More developer-focused interface
 
-### Deploy to Custom Hosting
+**Setup Steps:**
+1. Go to [vercel.com](https://vercel.com)
+2. Import from GitHub
+3. Deploy automatically
+4. Get URL: `https://our-wed.vercel.app`
 
-Upload the following files to your web hosting:
-- `index.html`
-- `styles.css`
-- `script.js`
+### 💰 **Budget Options (Under $5/month)**
+
+#### **4. Hostinger** ($1.99/month)
+- **Best for**: Custom domain + email
+- **Includes**: Domain, email hosting, SSL
+- **Storage**: 100GB
+- **Bandwidth**: Unlimited
+
+#### **5. Namecheap Shared Hosting** ($2.88/month)
+- **Best for**: All-in-one solution
+- **Includes**: Domain, hosting, email, SSL
+- **Storage**: 20GB
+- **Bandwidth**: Unlimited
+
+### 🚀 **Premium Options (For Advanced Features)**
+
+#### **6. Cloudflare Pages** (Free + Premium CDN)
+- **Cost**: Free + optional premium features
+- **Best for**: Global performance
+- **Pros**: Ultra-fast worldwide loading
+- **Setup**: GitHub integration
+
+#### **7. Firebase Hosting** (Google)
+- **Cost**: Free tier + pay-as-you-scale
+- **Best for**: Integration with Google services
+- **Pros**: Google infrastructure, analytics
+
+### 🎯 **Our Top Recommendation for Wedding Sites:**
+
+**For Beginners**: GitHub Pages (free, simple)
+**For Best Experience**: Netlify (free, feature-rich)
+**For Custom Domain + Email**: Hostinger ($1.99/month)
+
+### 📧 **Don't Forget: Email Setup**
+
+If you want custom email addresses (e.g., `daniela@danielaygustavo.com`):
+
+1. **Free Options**:
+   - Gmail with custom domain (Google Workspace - $6/month)
+   - Zoho Mail (Free for 1 user, $1/month for multiple)
+
+2. **Included with Hosting**:
+   - Most paid hosting providers include email
+   - Set up: `daniela@yourdomain.com`, `gustavo@yourdomain.com`
+
+### 🌍 **Custom Domain Setup**
+
+1. **Buy Domain** ($10-15/year):
+   - Namecheap, GoDaddy, Google Domains
+   - Suggested: `danielaygustavo.com`, `bodadanielaygustavo.com`
+
+2. **Connect to Hosting**:
+   - Add CNAME record pointing to your hosting service
+   - Enable SSL certificate (usually automatic)
+
+### ⚡ **Quick Start Recommendation:**
+
+**Fastest Setup (5 minutes, Free)**:
+1. Push code to GitHub
+2. Enable GitHub Pages
+3. Share link: `https://yourusername.github.io/our-wed/`
+
+**Professional Setup (30 minutes, ~$3/month)**:
+1. Buy domain from Namecheap
+2. Host on Netlify (free) or Hostinger ($1.99/month)
+3. Set up custom email
+4. Result: `https://danielaygustavo.com`
 
 ## 📱 Browser Support
 

@@ -1,6 +1,6 @@
 // Countdown Timer
 function updateCountdown() {
-    const weddingDate = new Date('2026-06-14T15:00:00').getTime();
+    const weddingDate = new Date('2026-05-02T19:00:00').getTime();
     const now = new Date().getTime();
     const distance = weddingDate - now;
 
@@ -147,5 +147,239 @@ document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
         this.appendChild(ripple);
         
         setTimeout(() => ripple.remove(), 600);
+    });
+});
+
+// Calendar Export Functionality
+const weddingEvent = {
+    title: 'Boda de Daniela & Gustavo',
+    description: 'Celebra con nosotros nuestra boda en Hacienda de Rueda. ¡No podemos esperar para compartir este día especial contigo!',
+    location: 'Hacienda de Rueda, Puerto de Guayabitos 206, Fracc. Granjas Económicas, 37683 León de los Aldama, Guanajuato, México',
+    startDate: '2026-05-02T18:00:00', // 6:00 PM reception start
+    endDate: '2026-05-03T00:00:00'    // Midnight end
+};
+
+// Generate Google Calendar URL
+function generateGoogleCalendarUrl(event) {
+    const startDate = new Date(event.startDate).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+    const endDate = new Date(event.endDate).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+    
+    const params = new URLSearchParams({
+        action: 'TEMPLATE',
+        text: event.title,
+        dates: `${startDate}/${endDate}`,
+        details: event.description,
+        location: event.location
+    });
+    
+    return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
+
+// Generate Outlook Calendar URL
+function generateOutlookCalendarUrl(event) {
+    const startDate = new Date(event.startDate).toISOString();
+    const endDate = new Date(event.endDate).toISOString();
+    
+    const params = new URLSearchParams({
+        path: '/calendar/action/compose',
+        rru: 'addevent',
+        subject: event.title,
+        startdt: startDate,
+        enddt: endDate,
+        body: event.description,
+        location: event.location
+    });
+    
+    return `https://outlook.live.com/calendar/0/deeplink/compose?${params.toString()}`;
+}
+
+// Generate ICS file content
+function generateICSFile(event) {
+    const startDate = new Date(event.startDate).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+    const endDate = new Date(event.endDate).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+    const now = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+    
+    const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Wedding Invitation//Wedding Event//ES
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:wedding-${now}@danielaygustavo.com
+DTSTART:${startDate}Z
+DTEND:${endDate}Z
+DTSTAMP:${now}Z
+ORGANIZER;CN=Daniela & Gustavo:mailto:daniela@example.com
+SUMMARY:${event.title}
+DESCRIPTION:${event.description}
+LOCATION:${event.location}
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR`;
+    
+    return icsContent;
+}
+
+// Download ICS file
+function downloadICSFile(event) {
+    const icsContent = generateICSFile(event);
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'boda-daniela-gustavo.ics';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Custom Audio Player Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const audio = document.getElementById('wedding-music');
+    const playPauseBtn = document.getElementById('play-pause-btn');
+    const progressBar = document.querySelector('.progress-bar');
+    const progressFill = document.querySelector('.progress-fill');
+    const timeDisplay = document.querySelector('.time-display');
+    const muteBtn = document.getElementById('mute-btn');
+    const volumeSlider = document.getElementById('volume-slider');
+    
+    let isPlaying = false;
+    
+    // Format time helper function
+    function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+    
+    // Play/Pause functionality
+    playPauseBtn?.addEventListener('click', function() {
+        if (isPlaying) {
+            audio.pause();
+            playPauseBtn.textContent = '▶️';
+            isPlaying = false;
+        } else {
+            audio.play();
+            playPauseBtn.textContent = '⏸️';
+            isPlaying = true;
+        }
+    });
+    
+    // Update progress and time
+    audio?.addEventListener('timeupdate', function() {
+        if (audio.duration) {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            progressFill.style.width = progress + '%';
+            
+            const current = formatTime(audio.currentTime);
+            const total = formatTime(audio.duration);
+            timeDisplay.textContent = `${current} / ${total}`;
+        }
+    });
+    
+    // Progress bar click
+    progressBar?.addEventListener('click', function(e) {
+        if (audio.duration) {
+            const rect = progressBar.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const clickTime = (clickX / width) * audio.duration;
+            audio.currentTime = clickTime;
+        }
+    });
+    
+    // Volume control
+    volumeSlider?.addEventListener('input', function() {
+        audio.volume = volumeSlider.value;
+        updateVolumeIcon();
+    });
+    
+    // Mute toggle
+    muteBtn?.addEventListener('click', function() {
+        if (audio.muted) {
+            audio.muted = false;
+            volumeSlider.value = audio.volume;
+        } else {
+            audio.muted = true;
+        }
+        updateVolumeIcon();
+    });
+    
+    // Update volume icon
+    function updateVolumeIcon() {
+        if (audio.muted || audio.volume == 0) {
+            muteBtn.textContent = '🔇';
+        } else if (audio.volume < 0.5) {
+            muteBtn.textContent = '🔉';
+        } else {
+            muteBtn.textContent = '🔊';
+        }
+    }
+    
+    // Set initial volume
+    if (audio) {
+        audio.volume = 0.7;
+        updateVolumeIcon();
+    }
+    
+    // Reset play button when audio ends
+    audio?.addEventListener('ended', function() {
+        playPauseBtn.textContent = '▶️';
+        isPlaying = false;
+        progressFill.style.width = '0%';
+    });
+});
+
+// Calendar dropdown and export event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Calendar dropdown toggle
+    const calendarDropdown = document.querySelector('.calendar-dropdown');
+    const calendarToggle = document.querySelector('.calendar-toggle');
+    
+    if (calendarToggle) {
+        calendarToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            calendarDropdown.classList.toggle('open');
+        });
+    }
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function() {
+        if (calendarDropdown) {
+            calendarDropdown.classList.remove('open');
+        }
+    });
+    
+    // Prevent dropdown from closing when clicking inside menu
+    const calendarMenu = document.querySelector('.calendar-menu');
+    if (calendarMenu) {
+        calendarMenu.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+    
+    // Calendar export functions
+    // Google Calendar
+    document.getElementById('google-calendar')?.addEventListener('click', function() {
+        window.open(generateGoogleCalendarUrl(weddingEvent), '_blank');
+        calendarDropdown.classList.remove('open');
+    });
+    
+    // Outlook Calendar
+    document.getElementById('outlook-calendar')?.addEventListener('click', function() {
+        window.open(generateOutlookCalendarUrl(weddingEvent), '_blank');
+        calendarDropdown.classList.remove('open');
+    });
+    
+    // Apple Calendar (opens ICS file)
+    document.getElementById('apple-calendar')?.addEventListener('click', function() {
+        downloadICSFile(weddingEvent);
+        calendarDropdown.classList.remove('open');
+    });
+    
+    // Download ICS
+    document.getElementById('download-ics')?.addEventListener('click', function() {
+        downloadICSFile(weddingEvent);
+        calendarDropdown.classList.remove('open');
     });
 });
