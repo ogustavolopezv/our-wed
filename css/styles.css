@@ -629,3 +629,28 @@ html{font-size:var(--base-font)}
 
 /* Improve iframe accessibility (visible border if focused via keyboard) */
 .rsvp-form-embed iframe:focus{ outline:4px solid rgba(63,43,35,0.12); outline-offset:2px }
+
+/* Mobile-specific timeline adjustments: fix alternation and center-line positioning so
+   the timeline renders cleanly on narrow screens. Overrides earlier desktop alternation rules. */
+@media(max-width:640px){
+  /* move the central vertical line to align with the left icon column */
+  .timeline::before{ left:28px; transform:none; }
+
+  /* ensure each item uses two-column layout (icon + content) and aligns left */
+  .timeline-item{ grid-template-columns:40px 1fr; gap:12px; padding:18px 0; align-items:flex-start }
+
+  /* place the circular marker on the same x position as the vertical line */
+  .timeline-item::before{ left:28px; transform:translateY(-50%) }
+
+  /* connector from the line to the content */
+  .timeline-item::after{ top:50%; transform:translateY(-50%); left:36px; width:12px }
+
+  /* force content to sit in the second column for all items and remove alternating rules */
+  .timeline-left{ grid-column:1; text-align:center; align-items:center; justify-content:flex-start; padding:0 }
+  .timeline-right{ grid-column:2; text-align:left; padding-left:12px; padding-right:0; align-items:flex-start }
+  .timeline-item:nth-child(even) .timeline-left,
+  .timeline-item:nth-child(even) .timeline-right{ grid-column:auto; text-align:left; padding:0 }
+
+  /* allow description to use full width and align left for readability */
+  .timeline-item .desc{ max-width:100%; text-align:left; margin:0 }
+}
