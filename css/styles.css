@@ -630,27 +630,150 @@ html{font-size:var(--base-font)}
 /* Improve iframe accessibility (visible border if focused via keyboard) */
 .rsvp-form-embed iframe:focus{ outline:4px solid rgba(63,43,35,0.12); outline-offset:2px }
 
-/* Mobile-specific timeline adjustments: fix alternation and center-line positioning so
-   the timeline renders cleanly on narrow screens. Overrides earlier desktop alternation rules. */
-@media(max-width:640px){
-  /* move the central vertical line to align with the left icon column */
-  .timeline::before{ left:28px; transform:none; }
+/* MOBILE: replace alternating timeline with a simple stacked list (milestone image left, text right) */
+@media (max-width:640px) {
+  /* hide decorative central line and connectors */
+  .program .timeline::before,
+  .program .timeline .timeline-item::before,
+  .program .timeline .timeline-item::after {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
 
-  /* ensure each item uses two-column layout (icon + content) and aligns left */
-  .timeline-item{ grid-template-columns:40px 1fr; gap:12px; padding:18px 0; align-items:flex-start }
+  /* make the timeline a normal flow block */
+  .program .timeline {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    padding: 8px 12px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+  }
 
-  /* place the circular marker on the same x position as the vertical line */
-  .timeline-item::before{ left:28px; transform:translateY(-50%) }
+  /* each item becomes a horizontal row: icon/image on the left, content on the right */
+  .program .timeline .timeline-item {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 4px !important; /* tightened gap (was 8px) */
+    padding: 6px 0 !important; /* slightly reduced vertical padding */
+    border-bottom: 1px solid rgba(0,0,0,0.04) !important;
+    position: static !important;
+    min-height: unset !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
 
-  /* connector from the line to the content */
-  .timeline-item::after{ top:50%; transform:translateY(-50%); left:36px; width:12px }
+  /* left column for image/time: narrower to bring icon closer */
+  .program .timeline .timeline-left {
+    flex: 0 0 44px !important;
+    width: 44px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
 
-  /* force content to sit in the second column for all items and remove alternating rules */
-  .timeline-left{ grid-column:1; text-align:center; align-items:center; justify-content:flex-start; padding:0 }
-  .timeline-right{ grid-column:2; text-align:left; padding-left:12px; padding-right:0; align-items:flex-start }
-  .timeline-item:nth-child(even) .timeline-left,
-  .timeline-item:nth-child(even) .timeline-right{ grid-column:auto; text-align:left; padding:0 }
+  .program .timeline .timeline-left .event-icon,
+  .program .timeline .timeline-left .event-icon__img {
+    width: 44px !important; /* match left column */
+    height: auto !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
 
-  /* allow description to use full width and align left for readability */
-  .timeline-item .desc{ max-width:100%; text-align:left; margin:0 }
+  /* right column for text: reduce left padding so copy sits next to icon */
+  .program .timeline .timeline-right {
+    flex: 1 1 auto !important;
+    padding-left: 4px !important; /* tightened from 6px */
+    text-align: left !important;
+    display: block !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  /* ensure descriptions and times flow in order with less vertical gap */
+  .program .timeline .timeline-right .timeline-row,
+  .program .timeline .timeline-right .time,
+  .program .timeline .timeline-right .desc {
+    display: block !important;
+    text-align: left !important;
+    margin: 0 0 4px 0 !important; /* reduce bottom margin */
+    max-width: 100% !important;
+  }
+
+  /* slightly reduce icon size site-wide inside timeline */
+  .program .timeline .event-icon__img,
+  .program .timeline .event-icon {
+    width: 44px !important;
+    height: auto !important;
+    display: block !important;
+  }
+
+  /* invert icon/text for forced items (milestones 2 and 4): reduce padding so text hugs icon */
+  .program .timeline .timeline-item.force-left {
+    flex-direction: row-reverse !important;
+  }
+  .program .timeline .timeline-item.force-left .timeline-left {
+    justify-content: flex-end !important;
+    padding-right: 2px !important; /* tightened */
+    margin-left: 0 !important;
+  }
+  .program .timeline .timeline-item.force-left .timeline-right {
+    padding-left: 0 !important;
+    padding-right: 2px !important; /* tightened */
+    text-align: left !important;
+  }
+}
+
+/* AGGRESSIVE MOBILE TIGHTEN (highest specificity) */
+@media (max-width:640px) {
+  .program .timeline .timeline-item,
+  .program .timeline .timeline-item.force-left {
+    gap: 2px !important;
+    padding-top:4px !important;
+    padding-bottom:4px !important;
+  }
+
+  .program .timeline .timeline-item > .timeline-left {
+    flex: 0 0 32px !important;
+    width: 32px !important;
+    min-width: 32px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .program .timeline .timeline-left .event-icon__img,
+  .program .timeline .timeline-left .event-icon,
+  .program .timeline .event-icon__img,
+  .program .timeline .event-icon {
+    width: 32px !important;
+    height: auto !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  .program .timeline .timeline-item > .timeline-right {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+    margin: 0 !important;
+  }
+
+  .program .timeline .timeline-right .desc,
+  .program .timeline .timeline-right .time,
+  .program .timeline .timeline-right .timeline-row {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* tighten forced items (milestones 2 & 4) */
+  .program .timeline .timeline-item.force-left { flex-direction: row-reverse !important; }
+  .program .timeline .timeline-item.force-left > .timeline-left { padding-right: 0 !important; }
+  .program .timeline .timeline-item.force-left > .timeline-right { padding-left: 0 !important; padding-right: 2px !important; }
 }
