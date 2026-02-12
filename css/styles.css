@@ -1,0 +1,779 @@
+:root{
+  --bg:#f3e9df;
+  --accent:#9f4523; /* darkened terracotta for stronger strokes */
+  --text:#3f2b23;
+  --muted:#8a5a46;
+  --max-width:1100px; /* aumentado para diseño más espacioso */
+  --container-padding:24px; /* padding horizontal del layout */
+  --container-vertical:24px; /* margin vertical del layout */
+  --base-font:16px; /* referencia: 1rem */
+  --fs-xs:0.875rem;   /* 14px */
+  --fs-sm:0.9375rem;  /* 15px */
+  --fs-md:1rem;       /* 16px */
+  --fs-lg:1.125rem;   /* 18px */
+  --fs-xl:1.5rem;     /* 24px */
+  --fs-2xl:2rem;      /* 32px */
+  --fs-3xl:2.75rem;   /* 44px */
+  --btn-radius:8px;
+  --btn-bg:var(--accent);
+  --btn-color:#fff;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Libre Franklin, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+  background-color:var(--bg);
+  /* use project sample texture but render at native resolution to avoid pixelation */
+  background-image: linear-gradient(rgba(243,233,223,0.85), rgba(243,233,223,0.85)), url('../assets/images/background.png');
+  background-repeat: repeat; /* tile at native resolution to avoid upscaling */
+  background-size: auto; /* do not scale the texture */
+  background-position: left top;
+  background-attachment: scroll; /* avoid fixed, reduces artifacts on some browsers */
+  background-blend-mode:multiply;
+  image-rendering: auto; /* prefer smooth/resampled rendering */
+  color:var(--text);
+  font-size:var(--fs-md);
+  line-height:1.4;
+}
+.invite{max-width:var(--max-width);margin:var(--container-vertical) auto;padding:0 var(--container-padding)}
+
+/* small audio/player spacing */
+.top-music{ text-align:center; margin:12px 0; }
+
+/* HERO - stacking and spacing fixes to avoid elements overlapping */
+.hero{ position:relative; background:var(--bg); border-radius:6px; overflow:hidden }
+.hero__top{ position:relative; z-index:4; text-align:center; padding:12vh 24px 4vh; min-height:56vh; }
+
+/* torn paper / ragged edge overlay (placed above image, below text) */
+.hero__photo{ position:relative; overflow:visible }
+.hero__photo img{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:cover;
+  margin-top:-90px; /* pull image up so torn edge overlaps */
+  position:relative;
+  z-index:1;
+  border-bottom-left-radius:6px;
+  border-bottom-right-radius:6px;
+}
+.hero__photo::before{
+  content:'';
+  position:absolute;
+  left:0;right:0;
+  top:-140px; /* how far the torn mask hangs over the image */
+  height:180px;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 200' preserveAspectRatio='none'><path fill='%23f3e9df' d='M0,0 H1200 V64 C1060,84 940,20 820,64 C700,108 580,20 460,64 C340,108 220,30 100,70 C40,92 20,40 0,60 Z'/></svg>");
+  background-repeat:no-repeat;
+  background-position:top center;
+  background-size:cover;
+  pointer-events:none;
+  z-index:3; /* sits above image */
+  filter:drop-shadow(0 8px 18px rgba(0,0,0,0.08));
+}
+
+/* reduce overlap on small screens */
+@media(max-width:640px){
+  .hero__top{ padding-top:8vh; min-height:48vh }
+  .hero__photo img{ margin-top:-50px }
+  .hero__photo::before{ top:-90px; height:120px }
+}
+
+@media(min-width:720px){
+  .hero__top{ min-height:62vh; padding-top:14vh; padding-bottom:3vh }
+  .hero__photo img{ margin-top:-120px }
+  .hero__photo::before{ top:-180px; height:220px }
+}
+
+/* HERO */
+.hero{
+  background:var(--bg);
+  border-radius:6px;
+  overflow:hidden;
+  position:relative;
+}
+/* Top area with generous vertical space like the reference */
+.hero__top{
+  text-align:center;
+  padding:12vh 24px 4vh; /* larger top padding */
+  min-height:56vh;
+}
+.announce{
+  font-family:'Libre Franklin', 'Segoe UI', Arial, sans-serif;
+  color:var(--accent);
+  font-weight:800;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin:0 0 18px;
+}
+.names{
+  font-family:'Playfair Display', 'Cormorant Garamond', serif;
+  font-weight:700;
+  color:var(--text);
+  letter-spacing:3px;
+  text-transform:uppercase; /* image shows uppercase names */
+  line-height:0.95;
+  margin:6px 0 48px; /* increased bottom spacing to separate names from date */
+  font-size:clamp(2.2rem,6.2vw,4.5rem);
+}
+/* Divider rules for the hero/date section */
+.divider, .divider--thin{ width:82%; margin:28px auto; display:block }
+.divider{ border-top:3px solid var(--accent); height:4px }
+.divider--thin{ border-top:3px solid rgba(183,90,43,0.95); height:3px; margin-top:18px }
+.names .ornament{
+  font-family:'Great Vibes', cursive;
+  font-weight:400;
+  font-style:normal;
+  display:inline-block;
+  margin-right:8px;
+  color:var(--text);
+  vertical-align:top;
+  /* slightly smaller than main name on narrow screens */
+  font-size:clamp(3rem,9vw,6.5rem);
+}
+.names .amp{
+  font-family:'Cormorant Garamond', serif;
+  font-weight:700;
+  font-size:1.2em;
+  letter-spacing:4px;
+  display:inline-block;
+  color:var(--text);
+}
+.date-row .date-item, .date-row .date-big{
+  font-family:'Playfair Display', serif;
+  text-transform:uppercase;
+  color:var(--text);
+}
+.date-row .date-item{
+  font-family: 'Libre Franklin', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-weight:800; /* bold label */
+  text-transform:uppercase;
+  color:var(--text);
+  font-size:clamp(1.2rem,2.6vw,1.6rem); /* larger small label */
+  letter-spacing:1px; /* tighter spacing for sans */
+}
+.date-row .date-big{
+  font-family: 'Libre Franklin', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-weight:900; /* very bold */
+  color:var(--accent);
+  letter-spacing:2px; /* modest tracking for sans */
+  text-transform:uppercase;
+  font-size:clamp(5rem,11vw,13rem); /* much bigger */
+  line-height:0.82;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* Year below date */
+.year{
+  text-align:center;
+  font-family:'Libre Franklin', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-weight:700;
+  color:var(--muted);
+  margin-top:10px;
+  font-size:clamp(1rem,2.2vw,1.3rem);
+  letter-spacing:1.5px;
+}
+@media(min-width:720px){
+  .year{ font-size:clamp(1.2rem,1.6vw,1.6rem); margin-top:18px }
+}
+
+/* Layout: center the date row and harmonize dividers */
+.date-row{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:22px;
+  margin-top:32px; /* space from names */
+  flex-wrap:wrap;
+}
+.date-row .date-item{ margin:0 6px; }
+.date-row .date-big{ letter-spacing:4px; /* slightly tighter on small screens */ }
+.divider, .divider--thin{ width:82%; margin:28px auto; display:block }
+@media(min-width:720px){
+  .date-row{ gap:28px; margin-top:64px; }
+  .date-row .date-big{ letter-spacing:6px; font-size:clamp(4rem,9.5vw,10rem) }
+  .divider, .divider--thin{ width:88% }
+}
+
+/* torn paper effect and image overlap */
+.hero__photo{position:relative;overflow:visible}
+.hero__photo img{
+  display:block;
+  width:100%;
+  height:auto; /* allow natural height so whole image is visible */
+  object-fit:contain; /* do not crop */
+  margin-top:0; /* remove negative pull */
+  position:relative;
+  z-index:1;
+  border-bottom-left-radius:6px;
+  border-bottom-right-radius:6px;
+  background-color:var(--bg);
+}
+.hero__photo::before{
+  content:'';
+  position:absolute;
+  left:0;
+  right:0;
+  top:auto;
+  bottom:100%; /* place the SVG above the image without overlapping */
+  height:0; /* no overlap */
+  background-repeat:no-repeat;
+  background-position:top center;
+  background-size:cover;
+  pointer-events:none;
+  z-index:2;
+  filter:none;
+}
+
+/* Slightly lift the image on large screens to match composition */
+@media(min-width:720px){
+  .hero__top{min-height:62vh;padding-top:14vh;padding-bottom:3vh}
+  .names{font-size:clamp(3rem,8vw,6.5rem);margin:18px 0 72px} /* more space on large screens */
+  .names .ornament{font-size:clamp(4.4rem,12vw,10rem);margin-right:12px}
+  .date-row{gap:48px;margin-top:64px} /* increase space above date on wide screens */
+  .date-row{gap:48px;margin-top:48px}
+  .date-big{font-size:clamp(4rem,9.5vw,10rem)}
+  .hero__photo img{height:auto;margin-top:0;object-fit:contain}
+  .hero__photo::before{top:auto;bottom:100%;height:0}
+}
+
+/* ensure hero keeps the warm beige background */
+.hero, .hero__top{background:var(--bg)}
+
+/* Detalles del Evento (imagen 2) */
+.event-details{padding:48px 18px;background:var(--bg);text-align:center}
+.event-inner{max-width:720px;margin:0 auto}
+
+/* Ajustes tipográficos para sección Detalles (usar Cormorant Garamond) */
+.event-decor{
+  /* show the words in lowercase; initials are separate spans and will be styled independently */
+  text-transform:lowercase;
+  letter-spacing:2px;
+  font-weight:600;
+  color:var(--accent);
+  margin-bottom:8px;
+  /* keep serif family for the label */
+  font-family:'Cormorant Garamond', serif;
+}
+.event-decor .decor-initial{
+  /* slightly smaller initials per user request */
+  font-family:'Great Vibes',cursive;
+  font-style:italic;
+  font-weight:300;
+  font-size:clamp(2rem,5vw,4.6rem);
+  color:var(--text);
+  margin:0 6px;
+  vertical-align:middle;
+  display:inline-block;
+  line-height:1;
+  text-transform:uppercase; /* keep initials uppercase */
+}
+
+@media(min-width:720px){
+  /* reduced desktop size */
+  .event-decor .decor-initial{ font-size:5.8rem; }
+}
+.event-icon{margin:10px 0 18px}
+.event-icon svg{width:88px;height:auto;display:block;margin:0 auto}
+.event-icon__img{width:80px;height:auto;display:block;margin:6px auto 0;max-width:100%}
+@media(max-width:640px){
+  .event-icon__img{width:56px}
+}
+.event-title{font-family:'Cormorant Garamond', serif;font-size:clamp(1.25rem,3.2vw,2rem);color:var(--text);margin:6px 0}
+.event-time{color:var(--accent);font-family:'Cormorant Garamond',serif;font-size:var(--fs-xl);margin:14px 0}
+.event-venue{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.25rem,3.2vw,2rem); /* same as .event-title */
+  font-weight:400; /* normal weight to match Recepción */
+  color:var(--text);
+  margin:6px 0 12px;
+  letter-spacing:0.5px;
+}
+
+@media(min-width:720px){
+  .event-venue{ font-size:5rem; }
+}
+.event-address{
+  color:var(--accent);
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px;
+  line-height:1.6;
+  margin:10px 0;
+  font-style:normal; /* ensure address is not italic */
+  font-weight:400;
+}
+.event-note{color:var(--accent);margin-top:48px}
+.decor-initial{font-family:'Great Vibes',cursive;font-size:38px;color:var(--text);margin-right:4px;margin-left:4px}
+
+/* Force the venue line: make it the same size as .event-title per request */
+.event-details .event-venue{
+  font-size:clamp(1.25rem,3.2vw,2rem); /* same as .event-title */
+  font-weight:700; /* bold */
+  line-height:1.1;
+  color:var(--text);
+  margin:6px 0 12px;
+}
+@media(min-width:720px){
+  .event-details .event-venue{ font-size:clamp(1.25rem,3.2vw,2rem); }
+}
+
+/* Separador entre secciones (decorativo) */
+.invite section + section{position:relative;padding-top:36px}
+.invite section + section::before{
+  content:'';
+  display:block;
+  width:120px;
+  height:3px;
+  background:var(--accent);
+  margin:0 auto 18px;
+  border-radius:2px;
+  opacity:0.95;
+}
+
+@media(min-width:720px){
+  .invite section + section{padding-top:56px}
+  .invite section + section::before{width:180px;height:4px;margin-bottom:28px}
+}
+
+/* Programa de Boda (imagen 3) */
+.program{padding:36px 18px;background:var(--bg)}
+.program-inner{max-width:720px;margin:0 auto;text-align:center}
+.program-title{font-family:'Cormorant Garamond',serif;font-size:var(--fs-2xl);margin:0 0 18px}
+
+/* --- Grid-based timeline with true alternation --- */
+.timeline{position:relative;padding:24px 0}
+.timeline::before{content:'';position:absolute;left:50%;transform:translateX(-50%);top:0;bottom:0;width:2px;background:var(--accent);opacity:0.9}
+.timeline-item{display:grid;grid-template-columns:1fr 40px 1fr;align-items:center;gap:18px;padding:28px 0;min-height:72px;position:relative}
+.timeline-left,.timeline-right{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.timeline-left{grid-column:1;text-align:center}
+.timeline-right{grid-column:3;text-align:center;padding:0 12px}
+
+/* alternate columns for even items */
+.timeline-item:nth-child(even) .timeline-left{grid-column:3}
+.timeline-item:nth-child(even) .timeline-right{grid-column:1}
+
+/* marker in center */
+.timeline-item::before{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:var(--bg);border:1.6px solid var(--accent);z-index:3}
+
+/* small horizontal connector from center towards content (adjusted for tighter alignment) */
+.timeline-item::after{content:'';position:absolute;top:50%;height:2px;background:var(--accent);z-index:2}
+.timeline-item:nth-child(odd)::after{left:calc(50% + 8px);width:28px;transform:translateY(-50%)}
+.timeline-item:nth-child(even)::after{left:calc(50% - 36px);width:28px;transform:translateY(-50%)}
+
+/* text alignment for alternating items */
+.timeline-item:nth-child(odd) .timeline-right{padding-left:6px}
+.timeline-item:nth-child(even) .timeline-right{padding-right:6px}
+.timeline-item:nth-child(odd) .timeline-right{justify-content:flex-start;padding-left:8px;text-align:left}
+.timeline-item:nth-child(even) .timeline-right{justify-content:flex-end;padding-right:8px;text-align:right}
+
+/* Acercar títulos e íconos hacia la línea central */
+.timeline-item{ /* ensure consistent height */ min-height:72px}
+
+/* icons/time closer al centro */
+.timeline-item:nth-child(odd) .timeline-left{align-items:flex-end}
+.timeline-item:nth-child(even) .timeline-left{align-items:flex-start}
+
+/* títulos más cercanos a la línea central */
+.timeline-item:nth-child(odd) .timeline-right{justify-content:flex-start;padding-left:8px;text-align:left}
+.timeline-item:nth-child(even) .timeline-right{justify-content:flex-end;padding-right:8px;text-align:right}
+
+/* limitar ancho del texto para que quede próximo al centro */
+.desc{max-width:260px;margin:0}
+
+/* Move timeline titles closer to the central line */
+.timeline-item{ grid-template-columns: 1fr 28px 1fr; gap:12px }
+.timeline-item .desc{ max-width:200px }
+.timeline-item:nth-child(odd) .timeline-right{ padding-left:4px }
+.timeline-item:nth-child(even) .timeline-right{ padding-right:4px }
+/* Slightly shorten the connector so text can sit closer */
+.timeline-item:nth-child(odd)::after{ left:calc(50% + 6px); width:20px }
+.timeline-item:nth-child(even)::after{ left:calc(50% - 26px); width:20px }
+
+@media(max-width:640px){
+  /* keep mobile layout stable */
+  .timeline-item{ grid-template-columns:40px 1fr }
+  .timeline-item .desc{ max-width:100% }
+  .timeline-item:nth-child(odd)::after, .timeline-item:nth-child(even)::after{ left:28px; width:12px }
+}
+
+/* Código de Vestimenta (imagen 4) */
+.dress-code{padding:48px 18px;background:var(--bg);text-align:center}
+.dress-inner{max-width:720px;margin:0 auto}
+.dress-heading{font-family:Playfair Display,serif;color:var(--accent);font-size:var(--fs-xl);margin:6px 0 18px;letter-spacing:1px}
+.dress-heading .decor-initial{font-family:'Great Vibes',cursive;font-size:clamp(1.8rem,5vw,3.6rem);color:var(--text);margin:0 6px}
+.dress-type{font-family:'Cormorant Garamond',serif;color:var(--text);font-size:clamp(1.5rem,4.5vw,2.75rem);margin:18px 0 24px}
+.dress-icon{margin:8px 0 22px}
+.dress-icon svg{display:block;margin:0 auto;max-width:160px;height:auto;stroke:var(--accent)}
+.dress-list{margin-top:8px}
+.example-title{color:var(--accent);font-family:'Cormorant Garamond',serif;font-size:18px;margin:8px 0}
+.dress-list ul{list-style:disc;list-style-position:inside;padding-left:0;max-width:420px;margin:6px auto 0;color:var(--accent);font-family:'Cormorant Garamond',serif;font-size:20px;line-height:1.9;text-align:left}
+.dress-list li{margin:8px 0}
+.dress-note{color:var(--accent);font-family:'Cormorant Garamond',serif;font-size:18px;margin-top:28px}
+
+@media(min-width:720px){
+  .dress-heading{font-size:42px}
+  .dress-heading .decor-initial{font-size:72px}
+  .dress-type{font-size:64px;margin:18px 0 28px}
+  .dress-icon svg{max-width:200px}
+  .dress-list ul{font-size:22px}
+  .dress-note{font-size:20px}
+}
+
+/* --- Imagen 5: Mensaje principal centrado --- */
+.invitation-note{padding:72px 18px;background:var(--bg);text-align:center}
+.invitation-inner{max-width:720px;margin:0 auto}
+.invite-message{font-family:'Playfair Display',serif;color:var(--accent);font-size:clamp(1.25rem,3.6vw,2.25rem);line-height:1.12;margin:0 0 24px}
+.invite-sub{font-family:'Cormorant Garamond',serif;color:var(--muted);font-size:var(--fs-md);margin:0 auto;max-width:640px}
+
+/* --- Estilos mejorados para el formulario RSVP --- */
+.rsvp{padding:36px 18px;background:var(--bg);text-align:center}
+.rsvp-inner{max-width:720px;margin:0 auto}
+.rsvp-title{font-family:'Cormorant Garamond',serif;color:var(--text);font-size:var(--fs-2xl);margin:6px 0 18px}
+.rsvp__form{background:rgba(255,255,255,0.6);border-radius:12px;padding:20px;box-shadow:0 8px 20px rgba(45,31,24,0.06);display:block;text-align:left}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:14px;color:var(--muted);margin-bottom:8px}
+.field input[type="text"],
+.field input[type="email"],
+.field input[type="number"],
+.field textarea{width:100%;padding:12px 14px;border-radius:8px;border:1px solid rgba(45,31,24,0.09);background:rgba(255,255,255,0.98);font-size:16px;color:var(--text);outline:none;transition:box-shadow .15s, border-color .15s}
+.field input:focus,.field textarea:focus{box-shadow:0 4px 12px rgba(183,90,43,0.08);border-color:var(--accent)}
+.two-col{display:flex;gap:12px}
+.two-col .col{flex:1}
+.radios{display:flex;gap:12px;align-items:center}
+.radios label{display:inline-flex;align-items:center;gap:8px;font-size:var(--fs-md);color:var(--text)}
+.radios input{width:auto}
+.form-actions{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:6px}
+.btn, .add-calendar{
+  display:inline-block;
+  padding:10px 16px;
+  border-radius:var(--btn-radius);
+  background:var(--btn-bg);
+  color:var(--btn-color);
+  text-decoration:none;
+  font-weight:700;
+  border:1px solid rgba(0,0,0,0.06);
+  box-shadow:0 6px 18px rgba(63,43,35,0.06);
+  transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+}
+.btn:hover, .add-calendar:hover{ transform:translateY(-3px); box-shadow:0 12px 28px rgba(63,43,35,0.09); }
+.btn:focus, .add-calendar:focus{ outline:3px solid rgba(159,69,35,0.12); outline-offset:3px }
+.add-calendar--google{ background: linear-gradient(90deg, var(--accent), #b55a2b); }
+.add-calendar--apple{ background: #222; color: #fff; }
+.invite-calendar{ margin-top:18px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap }
+.invite-calendar a{ min-width:220px; text-align:center }
+.rsvp-form-embed{ max-width:900px; margin:18px auto }
+.rsvp-form-embed iframe{ width:100%; height:1024px; border:0; display:block }
+@media(max-width:640px){
+  .two-col{flex-direction:column}
+  .form-actions{flex-direction:column;align-items:stretch}
+  .form-actions .form-feedback{text-align:center;margin-top:8px}
+  .invite{ padding:0 16px }
+  .invite-calendar{ justify-content:center }
+  .invite-calendar a{ min-width:160px }
+  .rsvp-form-embed iframe{ height:1200px } /* allow more vertical space on mobile */
+}
+
+/* --- Escala tipográfica estandarizada (rem) --- */
+html{font-size:var(--base-font)}
+
+/* Encabezados y piezas clave (usar tamaños responsivos donde antes había múltiples tamaños) */
+.announce{font-size:var(--fs-sm)}
+.names{font-size:clamp(1.6rem,4.2vw,2.75rem)}
+.names .ornament{font-size:clamp(2.2rem,6.5vw,4rem)}
+.date-item{font-size:var(--fs-md)}
+.date-big{font-size:clamp(2.75rem,7.5vw,4rem)}
+
+.event-decor, .program-title, .rsvp-title{font-size:var(--fs-2xl)}
+.event-title{font-size:clamp(1.25rem,3.2vw,2rem)}
+.event-time{font-size:var(--fs-xl)}
+.event-venue, .dress-list li, .event-address, .dress-note{font-size:var(--fs-md)}
+
+.dress-heading{font-size:var(--fs-xl)}
+.dress-heading .decor-initial{font-size:clamp(1.8rem,5vw,3.6rem)}
+.dress-type{font-size:clamp(1.5rem,4.5vw,2.75rem)}
+
+.invite-message{font-size:clamp(1.25rem,3.6vw,2.25rem);line-height:1.12}
+.invite-sub{font-size:var(--fs-md)}
+
+/* Formularios */
+.rsvp__form, .rsvp__form input, .rsvp__form textarea, .rsvp__form label{font-size:var(--fs-md)}
+.radios label{font-size:var(--fs-md)}
+.form-feedback{font-size:var(--fs-md)}
+
+/* Asegurar consistencia en tamaños en pantallas grandes */
+@media(min-width:720px){
+  body{font-size:var(--fs-md)}
+  .names{font-size:clamp(2.5rem,6.5vw,4.5rem)}
+  .names .ornament{font-size:clamp(3.2rem,9vw,6rem)}
+  .date-big{font-size:clamp(3rem,8.5vw,6rem)}
+  .dress-type{font-size:clamp(2rem,6vw,4rem)}
+}
+
+/* Make the top announcement more prominent */
+.hero__top .announce{
+  font-size: clamp(1.4rem, 3.0vw, 2.0rem);
+  font-weight:800;
+  letter-spacing:1.5px;
+  margin-bottom:64px; /* increased spacing to separate from names */
+}
+@media(min-width:720px){
+  .hero__top .announce{
+    font-size: clamp(1.8rem, 2.6vw, 2.6rem);
+    margin-bottom:84px; /* more space on larger screens */
+  }
+}
+
+/* Google Map - Responsive styles */
+.event-map{max-width:720px;margin:12px auto 0;border-radius:8px;overflow:hidden;box-shadow:0 10px 24px rgba(45,31,24,0.06)}
+.event-map__iframe{width:100%;height:320px;border:0;display:block}
+@media(max-width:640px){.event-map__iframe{height:220px}}
+
+/* Calendar buttons */
+.event-calendar{margin:12px 0 16px;display:flex;gap:12px;justify-content:center;align-items:center}
+.add-calendar{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(159,69,35,0.06);color:var(--accent);border:1px solid rgba(159,69,35,0.12);font-family:'Cormorant Garamond',serif;font-size:0.95rem;text-decoration:none;box-shadow:0 6px 16px rgba(45,31,24,0.06);transition:transform .12s ease,box-shadow .12s ease,background .12s ease}
+.add-calendar::before{content:'';display:inline-block;width:18px;height:18px;background-repeat:no-repeat;background-position:center;background-size:18px}
+.add-calendar--google::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%239f4523' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='5' width='18' height='16' rx='2'/><path d='M16 3v4M8 3v4M3 11h18'/></svg>")}
+.add-calendar--apple::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%239f4523' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><path d='M19 4h-1.5a1.5 1.5 0 0 0-3 0H10.5a1.5 1.5 0 0 0-3 0H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z'/><text x='6' y='15' fill='%239f4523' font-size='6'>ical</text></svg>")}
+.add-calendar:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(45,31,24,0.12);background:rgba(159,69,35,0.12)}
+@media(max-width:640px){.add-calendar{padding:7px 10px;font-size:0.9rem}.add-calendar::before{width:16px;height:16px;background-size:16px}}
+
+/* force a specific timeline-item to keep left content on left and icon on right */
+.timeline-item.force-left:nth-child(even) .timeline-left { grid-column: 1; align-items: flex-start; text-align:left }
+.timeline-item.force-left:nth-child(even) .timeline-right { grid-column: 3; justify-content: flex-end; text-align:right }
+/* also force for odd (in case ordering changed) */
+.timeline-item.force-left:nth-child(odd) .timeline-left { grid-column: 1; align-items: flex-start; text-align:left }
+.timeline-item.force-left:nth-child(odd) .timeline-right { grid-column: 3; justify-content: flex-end; text-align:right }
+
+/* make sure .timeline-left stacks time/title vertically on narrow screens */
+@media(max-width:640px){
+  .timeline-item.force-left{grid-template-columns:40px 1fr}
+  .timeline-item.force-left .timeline-left{grid-column:1;align-items:flex-start}
+  .timeline-item.force-left .timeline-right{grid-column:2;align-items:flex-start;padding-left:12px;text-align:left}
+}
+
+/* Align time and title of the specific force-left item toward the central line */
+.timeline-item.force-left .timeline-left { align-items: flex-end }
+.timeline-item.force-left .timeline-left .time { text-align:right; margin-left:auto }
+.timeline-item.force-left .timeline-left .desc { text-align:right; margin-left:auto }
+/* nudge the left column of the specific force-left item a bit away from the center */
+.timeline-item.force-left .timeline-left{
+  transform:translateX(-30px) !important;
+}
+.timeline-item.force-left .timeline-left .time,
+.timeline-item.force-left .timeline-left .desc{
+  margin-right:24px !important; /* larger gap from the center */
+}
+@media(max-width:640px){
+  .timeline-item.force-left .timeline-left{ transform:none }
+  .timeline-item.force-left .timeline-left .time,
+  .timeline-item.force-left .timeline-left .desc{ margin-right:0 }
+}
+
+/* nudge the icon for the force-left item slightly toward the center */
+.timeline-item.force-left .timeline-right .icon{
+  transform:translateX(-12px);
+}
+@media(max-width:640px){
+  .timeline-item.force-left .timeline-right .icon{ transform:none }
+}
+
+/* Force-left: move the icon further toward the center for flipped items */
+.timeline-item.force-left .timeline-right .event-icon,
+.timeline-item.force-left .timeline-right .event-icon__img{
+  transform: translateX(-44px); /* increased from -28px to -44px */
+  transition: transform 160ms ease;
+}
+.timeline-item.force-left .timeline-right{ padding-right:4px; }
+
+@media(max-width:640px){
+  /* reset on narrow screens so icons stay inline with stacked layout */
+  .timeline-item.force-left .timeline-right .event-icon,
+  .timeline-item.force-left .timeline-right .event-icon__img{ transform:none; }
+}
+
+/* Move hito 3 (3rd timeline-item) text closer to the central line */
+.timeline-item:nth-child(3) .timeline-right .timeline-row, .timeline-item:nth-child(3) .timeline-right .desc, .timeline-item:nth-child(3) .timeline-right .time { transform: translateX(-20px); transition: transform 160ms ease; } @media(max-width:640px){ .timeline-item:nth-child(3) .timeline-right .timeline-row, .timeline-item:nth-child(3) .timeline-right .desc, .timeline-item:nth-child(3) .timeline-right .time { transform: none; } }
+
+/* Move hito 5 (5th timeline-item) text closer to the central line */
+.timeline-item:nth-child(5) .timeline-right .timeline-row, .timeline-item:nth-child(5) .timeline-right .desc, .timeline-item:nth-child(5) .timeline-right .time { transform: translateX(-20px); transition: transform 160ms ease; } @media(max-width:640px){ .timeline-item:nth-child(5) .timeline-right .timeline-row, .timeline-item:nth-child(5) .timeline-right .desc, .timeline-item:nth-child(5) .timeline-right .time { transform: none; } }
+
+/* Move icons for hitos 1, 3 y 5 a la izquierda (un poco más lejos de la línea central) */
+.timeline-item:nth-child(odd) .timeline-left .event-icon, .timeline-item:nth-child(odd) .timeline-left .event-icon__img { transform: translateX(-20px); transition: transform 160ms ease; } @media(max-width:640px){ .timeline-item:nth-child(odd) .timeline-left .event-icon, .timeline-item:nth-child(odd) .timeline-left .event-icon__img { transform: none; } }
+
+/* Make the dress-code icon larger (approx. double the default event-icon__img) */
+.dress-icon .event-icon__img{
+  width:160px; /* double of 80px default */
+  height:auto;
+  display:block;
+  margin:6px auto 8px;
+}
+@media(max-width:640px){
+  .dress-icon .event-icon__img{ width:112px } /* smaller on narrow screens */
+}
+
+/* Skip link for keyboard users */
+.skip-link{
+  position:fixed;left:12px;top:12px;background:var(--accent);color:#fff;padding:8px 12px;border-radius:6px;z-index:999;transform:translateY(-120%);transition:transform .18s ease}
+.skip-link:focus{transform:translateY(0)}
+
+/* stronger focus styles for interactive elements */
+:focus{ outline: 3px solid rgba(159,69,35,0.18); outline-offset:3px }
+
+/* Ensure calendar buttons have sufficient contrast (darker background on hover) */
+.add-calendar{ color:#fff }
+.add-calendar--google{ background: linear-gradient(90deg, #8f3b1d, #b55a2b) }
+.add-calendar--google:hover{ background: linear-gradient(90deg,#7d3117,#a44f22) }
+.add-calendar--apple{ background:#111 }
+.add-calendar--apple:hover{ background:#000 }
+
+/* Improve iframe accessibility (visible border if focused via keyboard) */
+.rsvp-form-embed iframe:focus{ outline:4px solid rgba(63,43,35,0.12); outline-offset:2px }
+
+/* MOBILE: replace alternating timeline with a simple stacked list (milestone image left, text right) */
+@media (max-width:640px) {
+  /* hide decorative central line and connectors */
+  .program .timeline::before,
+  .program .timeline .timeline-item::before,
+  .program .timeline .timeline-item::after {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+
+  /* make the timeline a normal flow block */
+  .program .timeline {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    padding: 8px 12px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+  }
+
+  /* each item becomes a horizontal row: icon/image on the left, content on the right */
+  .program .timeline .timeline-item {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 4px !important; /* tightened gap (was 8px) */
+    padding: 6px 0 !important; /* slightly reduced vertical padding */
+    border-bottom: 1px solid rgba(0,0,0,0.04) !important;
+    position: static !important;
+    min-height: unset !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  /* left column for image/time: narrower to bring icon closer */
+  .program .timeline .timeline-left {
+    flex: 0 0 44px !important;
+    width: 44px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  .program .timeline .timeline-left .event-icon,
+  .program .timeline .timeline-left .event-icon__img {
+    width: 44px !important; /* match left column */
+    height: auto !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  /* right column for text: reduce left padding so copy sits next to icon */
+  .program .timeline .timeline-right {
+    flex: 1 1 auto !important;
+    padding-left: 4px !important; /* tightened from 6px */
+    text-align: left !important;
+    display: block !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  /* ensure descriptions and times flow in order with less vertical gap */
+  .program .timeline .timeline-right .timeline-row,
+  .program .timeline .timeline-right .time,
+  .program .timeline .timeline-right .desc {
+    display: block !important;
+    text-align: left !important;
+    margin: 0 0 4px 0 !important; /* reduce bottom margin */
+    max-width: 100% !important;
+  }
+
+  /* slightly reduce icon size site-wide inside timeline */
+  .program .timeline .event-icon__img,
+  .program .timeline .event-icon {
+    width: 44px !important;
+    height: auto !important;
+    display: block !important;
+  }
+
+  /* invert icon/text for forced items (milestones 2 and 4): reduce padding so text hugs icon */
+  .program .timeline .timeline-item.force-left {
+    flex-direction: row-reverse !important;
+  }
+  .program .timeline .timeline-item.force-left .timeline-left {
+    justify-content: flex-end !important;
+    padding-right: 2px !important; /* tightened */
+    margin-left: 0 !important;
+  }
+  .program .timeline .timeline-item.force-left .timeline-right {
+    padding-left: 0 !important;
+    padding-right: 2px !important; /* tightened */
+    text-align: left !important;
+  }
+}
+
+/* AGGRESSIVE MOBILE TIGHTEN (highest specificity) */
+@media (max-width:640px) {
+  .program .timeline .timeline-item,
+  .program .timeline .timeline-item.force-left {
+    gap: 2px !important;
+    padding-top:4px !important;
+    padding-bottom:4px !important;
+  }
+
+  .program .timeline .timeline-item > .timeline-left {
+    flex: 0 0 32px !important;
+    width: 32px !important;
+    min-width: 32px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .program .timeline .timeline-left .event-icon__img,
+  .program .timeline .timeline-left .event-icon,
+  .program .timeline .event-icon__img,
+  .program .timeline .event-icon {
+    width: 32px !important;
+    height: auto !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  .program .timeline .timeline-item > .timeline-right {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+    margin: 0 !important;
+  }
+
+  .program .timeline .timeline-right .desc,
+  .program .timeline .timeline-right .time,
+  .program .timeline .timeline-right .timeline-row {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* tighten forced items (milestones 2 & 4) */
+  .program .timeline .timeline-item.force-left { flex-direction: row-reverse !important; }
+  .program .timeline .timeline-item.force-left > .timeline-left { padding-right: 0 !important; }
+  .program .timeline .timeline-item.force-left > .timeline-right { padding-left: 0 !important; padding-right: 2px !important; }
+}
